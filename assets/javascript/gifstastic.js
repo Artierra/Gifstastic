@@ -4,101 +4,141 @@ $(document).ready(function() {
 
     });
 
-    //  Before you can make any part of your site work, you need to create an array of strings, each one related to a topic that interests you. Save it to a variable called topics.
-    //  We chose animals for our theme, but you can make a list to your own liking.
-    //  Your app should take the topics in this array and create buttons in your HTML.
-    // Try using a loop that appends a button for each string in the array.
-    var animalImage = $("<img>");
-    var userinput = $("<input type ='text'>");
+    // This is an array of strings, each one related to farm animals. Save it to a variable called topics.
+
+    // THisloop that appends a button for each string in the array with class of selectedAnimal.
+
+
     var topics = ['cows', 'pigs', 'chickens', 'ducks', 'goats', 'alpacas', 'geese', 'sheep'];
     for (var i = 0; i < topics.length; i++) {
         var button = $('<button>');
         button.text(topics[i]);
-        button.addClass("animal");
+        button.addClass("selectedAnimal");
         $('#buttonsDiv').append(button); /*div that holds my btns*/
     }
 
 
+    // var textFieldUserInput = $('<input>');
+    // textFieldUserInput.text;
+    // textFieldUserInput.addClass("userInput");
+    // $('#buttonsDiv').append(textFieldUserInput); /*text button that holds placeholder*/
+
+
+
+
+    //this is a test button, hard-coded with ID farmAnimal on HTMl to test the Giphy API calls
     $("#farmAnimal").on("click", function() {
         console.log("clicked");
-        // Storing our giphy API URL for a random farm animal image
+        // Storing our giphy API URL for a random farm animal image, filter for G reating, maximum of 10 images
         var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=3vqVnlyvaVhJvGZpcbTDlBCUxsKnQdC7&q=farm + animal&limit=10&offset=0&rating=G&lang=en";
-        console.log(queryURL);
-        // Perfoming an AJAX GET request to our queryURL
-        $.ajax({
-                url: queryURL,
-                method: "GET"
-            })
-            .then(function(response) {
-                var results = response.data;
-                console.log(results);
-
-                for (var i = 0; i < 11; i++) {
-                    console.log(results[i].title);
-                    var imageUrl = results[i].images.fixed_height.url;
-                    console.log(imageUrl);
-                    var animalImage = $("<img>");
-
-                    // Setting the farmImage src attribute to imageUrl
-                    animalImage.attr("src", imageUrl);
-                    animalImage.attr("alt", "farm animal");
-
-                    // Prepending the farmImage to the images div
-                    $("#imagesHere").prepend(animalImage);
-
-                }
-
-            });
-
-        // After the data from the AJAX request comes back
-
-        //the image_original_url property
-
-
-        // Creating and storing an image tag
-
-    });
-    //});
-    $(document).on("click", ".animal", function() {
-        console.log("clicked");
-        var text = $(this).text();
-
-        // Storing our giphy API URL for a specific farm animal image
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=3vqVnlyvaVhJvGZpcbTDlBCUxsKnQdC7&q=" + text + "&limit=10&offset=0&rating=G&lang=en";
 
         console.log(queryURL);
         // Perfoming an AJAX GET request to our queryURL
         $.ajax({
-                url: queryURL,
-                method: "GET"
+            url: queryURL,
+            method: "GET"
+        })
 
-            })
-            .then(function(response) {
-                var results = response.data;
-                console.log(results);
-                for (var i = 0; i < 11; i++) {
-                    console.log(results[i].title);
-                    var imageUrl = results[i].images.fixed_height.url;
-                    var rating = results[i].rating;
-                    console.log(imageUrl);
-                    console.log(rating);
-                    var animalImage = $("<img>");
-                    var ratingTag = $("<p>")
-                    ratingTag.text("rating " + rating);
+        .then(function(response) {
+            var results = response.data;
+            console.log(results);
 
-                    // Setting the animalImage src attribute to imageUrl
-                    animalImage.attr("src", imageUrl);
-                    animalImage.attr("alt", "farm animal");
+            for (var i = 0; i < 11; i++) {
+                console.log(results[i]);
+                var imageUrl = results[i].images.fixed_height.url;
+                console.log(imageUrl);
+                //creating a div for the animal Image 
+                var animalImage = $("<img>");
 
-                    // Prepending the animalImage to the images div
+                // Setting the Image src attribute to imageUrl, our variableanimalImage now has an image
+                animalImage.attr("src", imageUrl);
+                animalImage.attr("alt", "farm animal");
 
-                    $("#imagesHere").prepend(animalImage, ratingTag);
-                    // $("#rating").prepend(ratingTag);
-                }
+                // Prepending the farm AnimalImage to the images div
+                $("#imagesHere").prepend(animalImage);
 
-            })
+            }
+
+        });
     });
-})
+});
+
+$(document).on("click", ".selectedAnimal", function() {
+    console.log("clicked");
+    var text = $(this).text();
+
+
+    // Storing our giphy API URL for a selected farm animal image-query with variabe text-which is a selected animal from our array topics
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=3vqVnlyvaVhJvGZpcbTDlBCUxsKnQdC7&q=" + text + "&limit=10&offset=0&rating=G&lang=en";
+
+    console.log(queryURL);
+    // Perfoming an AJAX GE//T request to our queryURL
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response) {
+        var results = response.data;
+        console.log(results);
+        for (var i = 0; i < 11; i++) {
+            console.log(results[i]);
+            var imageUrl = results[i].images.fixed_height.url;
+            var rating = results[i].rating;
+            console.log(imageUrl);
+            console.log(rating);
+            var animalImage = $("<img>");
+            var ratingTag = $("<p>")
+            ratingTag.text("rating " + rating);
+
+            // Setting the catImage src attribute to imageUrl
+            animalImage.attr("src", imageUrl);
+            animalImage.attr("alt", "farm animal");
+
+            // Prepending the catImage to the images div
+
+            $("#imagesHere").prepend(animalImage, ratingTag);
+            // $("#rating").prepend(ratingTag);
+        }
+
+    })
+});
+//this is a input from user
+$("#choice").on("click", function(event) {
+    event.preventDefault();
+    console.log("clicked submit box");
+    var input = $("#userInput").val();
+    console.log(input);
+    // Storing our giphy API URL input from user, filter for G reating, maximum of 10 images
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=3vqVnlyvaVhJvGZpcbTDlBCUxsKnQdC7&q=farm" + input + "l&limit=10&offset=0&rating=G&lang=en";
+
+    console.log(queryURL);
+    // Perfoming an AJAX GET request to our queryURL
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    })
+
+    .then(function(response) {
+        var results = response.data;
+        console.log(results);
+
+        for (var i = 0; i < 11; i++) {
+            console.log(results[i].title);
+            var imageUrl = results[i].images.fixed_height.url;
+            console.log(imageUrl);
+            //creating a div for the animal Image 
+            var animalImage = $("<img>");
+
+            // Setting the Image src attribute to imageUrl, our variableanimalImage now has an image
+            animalImage.attr("src", imageUrl).attr("data-still", results[i].images.fixed_height_still.url);
+            animalImage.attr("alt", "farm animal");
+
+            // Prepending the farm AnimalImage to the images div
+            $("#imagesHere").prepend(animalImage);
+
+        }
+
+    });
+});
 
 // Under every gif, display its rating (PG, G, so on).
 // * This data is provided by the GIPHY API.
@@ -108,16 +148,4 @@ $(document).ready(function() {
 
 // 7. Deploy your assignment to Github Pages.
 
-// 8. **Rejoice**! You just made something really cool.
-
-// var state = $(this).attr("data-state");
-// // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-// // Then, set the image's data-state to animate
-// // Else set src to the data-still value
-// if (state === "still") {
-//     $(this).attr("src", $(this).attr("data-animate"));
-//     $(this).attr("data-state", "animate");
-// } else {
-//     $(this).attr("src", $(this).attr("data-still"));
-//     $(this).attr("data-state", "still");
-// }
+// 8. **Rejoice**! You just made something really cool.g
