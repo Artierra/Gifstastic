@@ -3,6 +3,47 @@ $(document).ready(function() {
         alert("hi");
 
     });
+    //this is a input from user
+
+
+
+    $("#choice").on("click", function(event) {
+        //event.preventDefault();
+        console.log("clicked submit box");
+        var input = $("#userInput").val();
+        console.log(input);
+        // Storing our giphy API URL input from user, filter for G reating, maximum of 10 images
+        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=3vqVnlyvaVhJvGZpcbTDlBCUxsKnQdC7&q=" + input + "l&limit=10&offset=0&rating=G&lang=en";
+
+        console.log(queryURL);
+        // Perfoming an AJAX GET request to our queryURL
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+
+        .then(function(response) {
+            var results = response.data;
+            console.log(results);
+
+            for (var i = 0; i < 11; i++) {
+                console.log(results[i].title);
+                var imageUrl = results[i].images.fixed_height.url;
+                console.log(imageUrl);
+                //creating a div for the animal Image 
+                var animalImage = $("<img>");
+
+                // Setting the Image src attribute to imageUrl, our variableanimalImage now has an image
+                animalImage.attr("src", imageUrl).attr(results[i].images.fixed_height_still.url);
+                animalImage.attr("alt", "farm animal");
+                animalImage.attr("data-still", results[i].images.fixed_height_still.url);
+                // Prepending the farm AnimalImage to the images div
+                $("#imagesHere").prepend(animalImage);
+
+            }
+
+        });
+    });
 
     // This is an array of strings, each one related to farm animals. Save it to a variable called topics.
 
@@ -63,6 +104,8 @@ $(document).ready(function() {
     });
 });
 
+
+
 $(document).on("click", ".selectedAnimal", function() {
     console.log("clicked");
     var text = $(this).text();
@@ -100,44 +143,6 @@ $(document).on("click", ".selectedAnimal", function() {
         }
 
     })
-});
-//this is a input from user
-$("#choice").on("click", function(event) {
-    event.preventDefault();
-    console.log("clicked submit box");
-    var input = $("#userInput").val();
-    console.log(input);
-    // Storing our giphy API URL input from user, filter for G reating, maximum of 10 images
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=3vqVnlyvaVhJvGZpcbTDlBCUxsKnQdC7&q=farm" + input + "l&limit=10&offset=0&rating=G&lang=en";
-
-    console.log(queryURL);
-    // Perfoming an AJAX GET request to our queryURL
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    })
-
-    .then(function(response) {
-        var results = response.data;
-        console.log(results);
-
-        for (var i = 0; i < 11; i++) {
-            console.log(results[i].title);
-            var imageUrl = results[i].images.fixed_height.url;
-            console.log(imageUrl);
-            //creating a div for the animal Image 
-            var animalImage = $("<img>");
-
-            // Setting the Image src attribute to imageUrl, our variableanimalImage now has an image
-            animalImage.attr("src", imageUrl).attr("data-still", results[i].images.fixed_height_still.url);
-            animalImage.attr("alt", "farm animal");
-
-            // Prepending the farm AnimalImage to the images div
-            $("#imagesHere").prepend(animalImage);
-
-        }
-
-    });
 });
 
 // Under every gif, display its rating (PG, G, so on).
