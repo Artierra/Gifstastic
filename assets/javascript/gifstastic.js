@@ -32,11 +32,15 @@ $(document).ready(function() {
                 console.log(imageUrl);
                 //creating a div for the animal Image 
                 var animalImage = $("<img>");
+                var still = results[i].images.fixed_height_still.url;
 
                 // Setting the Image src attribute to imageUrl, our variableanimalImage now has an image
                 animalImage.attr("src", imageUrl).attr(results[i].images.fixed_height_still.url);
+                animalImage.attr("data-still", still);
                 animalImage.attr("alt", "farm animal");
-                animalImage.attr("data-still", results[i].images.fixed_height_still.url);
+                animalImage.attr("alt", "farm animal");
+                animalImage.attr("alt", "farm animal");
+                //animalImage.attr("data-still", results[i].images.fixed_height_still.url);
                 // Prepending the farm AnimalImage to the images div
                 $("#imagesHere").prepend(animalImage);
 
@@ -94,7 +98,7 @@ $(document).ready(function() {
                 // Setting the Image src attribute to imageUrl, our variableanimalImage now has an image
                 animalImage.attr("src", imageUrl);
                 animalImage.attr("alt", "farm animal");
-
+                animalImage.addClass("pretty");
                 // Prepending the farm AnimalImage to the images div
                 $("#imagesHere").prepend(animalImage);
 
